@@ -1,0 +1,86 @@
+:root {
+  --primary: #0e7c86;
+  --primary-dark: #095a61;
+  --light: #f4fafb;
+  --text: #1f2d3d;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  color: var(--text);
+  line-height: 1.6;
+}
+
+/* ---------- Navigation ---------- */
+header {
+  background: var(--primary);
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+header .logo { color: white; font-size: 1.3rem; font-weight: bold; }
+nav a {
+  color: white;
+  text-decoration: none;
+  margin-left: 1.5rem;
+}
+nav a:hover { text-decoration: underline; }
+
+/* ---------- Hero ---------- */
+.hero {
+  background: var(--light);
+  text-align: center;
+  padding: 5rem 1.5rem;
+}
+.hero h1 { font-size: 2.4rem; color: var(--primary-dark); }
+.hero p { max-width: 600px; margin: 1rem auto 2rem; }
+
+.btn {
+  display: inline-block;
+  background: var(--primary);
+  color: white;
+  padding: 0.8rem 1.6rem;
+  border-radius: 6px;
+  text-decoration: none;
+  margin: 0.3rem;
+}
+.btn:hover { background: var(--primary-dark); }
+
+/* ---------- Sections ---------- */
+section { padding: 3rem 1.5rem; max-width: 1000px; margin: auto; }
+section h2 { color: var(--primary-dark); margin-bottom: 1rem; }
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.5rem;
+}
+.card {
+  border: 1px solid #dde7ea;
+  border-radius: 8px;
+  padding: 1.5rem;
+}
+.card h3 { color: var(--primary); margin-bottom: 0.5rem; }
+
+footer {
+  background: var(--primary-dark);
+  color: white;
+  text-align: center;
+  padding: 1.5rem;
+  margin-top: 2rem;
+}
+form { max-width: 500px; }
+form label { display: block; margin-top: 1rem; font-weight: bold; }
+form input, form select, form textarea {
+  width: 100%;
+  padding: 0.6rem;
+  margin-top: 0.3rem;
+  border: 1px solid #c5d3d6;
+  border-radius: 6px;
+  font-family: inherit;
+}
+form button { margin-top: 1.2rem; border: none; cursor: pointer; }
+#status { margin-top: 1rem; font-weight: bold; color: var(--primary-dark); }

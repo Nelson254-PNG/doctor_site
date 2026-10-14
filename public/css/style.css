@@ -72,3 +72,15 @@ footer {
   padding: 1.5rem;
   margin-top: 2rem;
 }
+form { max-width: 500px; }
+form label { display: block; margin-top: 1rem; font-weight: bold; }
+form input, form select, form textarea {
+  width: 100%;
+  padding: 0.6rem;
+  margin-top: 0.3rem;
+  border: 1px solid #c5d3d6;
+  border-radius: 6px;
+  font-family: inherit;
+}
+form button { margin-top: 1.2rem; border: none; cursor: pointer; }
+#status { margin-top: 1rem; font-weight: bold; color: var(--primary-dark); }

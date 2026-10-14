@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dr. Nelson  - Home</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <header>
+   <div class="logo"> Dr.Nelson</div>
+   <nav>
+    <a href="/index.html">Home</a>
+    <a href="/Consultation.html">Consultation</a>
+    <a href="/treatment.html">Treatment</a>
+    <a href="/contact.html">Contact</a>  
+    </nav>
+  </header>
+  <section> 
+    <h2>Online Consultation</h2>
+    <p>Tell us what is troubling you and Dr.Nelson will respond.</p>
+
+    <form id="consultaForm">
+      <label>Full name *</label>
+      <input type="text" name="name" required>
+
+      <label>Phone *</label>
+      <input type="tel" name="phone" required>
+
+      <label>Email</label>
+      <input type="email" name="email">
+
+      <label>Type of concern</label>
+      <select name="category">
+        <option>General health</option>
+        <option>Child health</option>
+        <option>Women's health</option>
+        <option>Other</option>
+      </select>
+
+      <label> Describe your concern *</label>
+      <textarea name="message" required></textarea>
+
+      <button type="submit">Submit</button>
+      <p id="status"></p>
+    </form>
+  </section>
+
+  <script>
+    const form = document.getElementById("consultForm");
+    const statusBox = document.getElementById("status");
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();                       // stop the page reloading
+      statusBox.textContent = "Sending...";
+
+      try {
+        const res = await fetch("/api/consultation", {
+          method: "POST",
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+          body: new URLSearchParams(new FormData(form))
+        });
+        const data = await res.json();
+
+        if (data.ok) {
+          statusBox.textContent = "Thank you! Your request has been received.";
+          form.reset();
+        } else {
+          statusBox.textContent = data.error;
+        }
+      } catch (err) {
+        statusBox.textContent = "Could not reach the server. Please try again.";
+      }
+    });
+
+  </script>
