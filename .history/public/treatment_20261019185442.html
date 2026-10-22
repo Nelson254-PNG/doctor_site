@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dr. Nelson - Treatment</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <header>
+    <div class="logo"> Dr.Nelson</div>
+    <nav>
+      <a href="/index.html">Home</a>
+      <a href="/Consultation.html">Consultation</a>
+      <a href="/treatment.html">Treatment</a>
+      <a href="/contact.html">Contact</a>  
+    </nav>
+  </header>
+    <section>
+    <h2>Order Home Treatment</h2>
+    <p>Choose a treatment and a time, and Dr.Nelson will come to you.</p>
+
+    <form id="bookForm">
+      <label>Full name *</label>
+      <input type="text" name="name" required>
+
+      <label>Phone *</label>
+      <input type="tel" name="phone" required>
+
+      <label>Home address *</label>
+      <textarea name="address" rows="2" required></textarea>
+
+      <label>Treatment *</label>
+      <select name="treatment" required>
+        <option>General check-up</option>
+        <option>Wound dressing</option>
+        <option>Injection / drip</option>
+        <option>Follow-up visit</option>
+        <option>Other (explain below)</option>
+      </select>
+
+      <label>Available time *</label>
+      <select name="slot_id" id="slotSelect" required>
+        <option value="">Loading times...</option>
+      </select>
+
+      <label>Notes</label>
+      <textarea name="notes" rows="3"></textarea>
+
+      <button type="submit" class="btn">Book Treatment</button>
+      <p id="status"></p>
+    </form>
+  </section>
+
+  <script>
+    const form = document.getElementById("bookForm");
+    const slotSelect = document.getElementById("slotSelect");
+    const statusBox = document.getElementById("status");
+
+    async function loadSlots() {
+      const res = await fetch("/api/slots");
+      const slots = await res.json();
+
+      slotSelect.innerHTML = "";
+      if (slots.length === 0) {
+        slotSelect.innerHTML = "<option value=''>No times available</option>";
+        return;
+      }
+      for (const s of slots) {
+        const opt = document.createElement("option");
+        opt.value = s.id;
+        opt.textContent = s.date + " at " + s.time;
+        slotSelect.appendChild(opt);
+      }
+    }
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      statusBox.textContent = "Booking...";
+      try {
+        const res = await fetch("/api/book", {
+          method: "POST",
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+          body: new URLSearchParams(new FormData(form))
+        });
+        const data = await res.json();
+
+        if (data.ok) {
+          statusBox.textContent = "Booked! Dr. [Name] will confirm with you shortly.";
+          form.reset();
+        } else {
+          statusBox.textContent = data.error;
+        }
+      } catch (err) {
+        statusBox.textContent = "Could not reach the server. Please try again.";
+      }
+      loadSlots();   // refresh so a taken slot disappears
+    });
+
+    loadSlots();
+  </script>
+  <footer>&copy; 2026 Dr. Nelson. All rights reserved.</footer>
+</body>
+</html>  
